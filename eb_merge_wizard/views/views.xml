@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="base_task_merge_automatic_wizard_tree" model="ir.ui.view">
+        <field name="name">base.task.merge.automatic.wizard.tree</field>
+        <field name="model">base.task.merge.automatic.wizard</field>
+        <field name="arch" type="xml">
+            <tree>
+                 <field name="partner_id" string="Client"/>
+                 <field name="project_id" string="Projet"/>
+                <field name="type" string="Type Subdivision" required="1"/>
+                 <field name="zone" string="Zone Concernée" />
+                <field name="secteur" string="Secteur Concerné" />
+                <field name="keep" string="Types Taches" />
+                 <field name="choix" string="Taches Sources"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="base_task_merge_automatic_wizard_form" model="ir.ui.view">
+        <field name="name">base.task.merge.automatic.wizard.form</field>
+        <field name="model">base.task.merge.automatic.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Merge Tasks">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open"
+                           statusbar_colors="{&quot;pending&quot;:&quot;blue&quot;}" readonly="1"/>
+                </header>
+                <sheet string="Project">
+                    <group string="Assign tasks to" invisible="1">
+                        <field name="name" class="oe_inline"/>
+                        <field name="user_id" class="oe_inline"/>
+                        <field name="dst_project" class="oe_inline"/>
+                    </group>
+
+                    <group string="Filtre de Recherche des Taches" attrs="{'readonly':[('state','in',['done'])]}">
+                        <group>
+                            <field name="partner_id" string="Client" required="1"/>
+                            <field name="project_id" string="Projet" options="{'no_create': True, 'no_create_edit':True}" required="1"/>
+                            <field name="date_from" string="Date de"
+                                   help="Date de Réalisation Prévue"
+                                   invisible="1"/>
+                            <field name="date_to" string="Date A"
+                                   help="Date de Réalisation Prévue"
+                                   invisible="1"/>
+                            <field name="type" string="Type Subdivision" required="1"/>
+                            <field name="zone" string="Zone Concernée" attrs="{'invisible':[('type','=','1')]}"/>
+                            <field name="secteur" string="Secteur Concerné" attrs="{'invisible':[('type','=','1')]}"/>
+                            <field name="keep" string="Types Taches" attrs="{'invisible':[('type','=','1')]}"/>
+                            <field name="choix" string="Taches Sources"
+                                   attrs="{'invisible':[('type','=','1')],'required':[('type','!=','1')]}"
+                                   help="Vous pouvez choisir de garder les taches sources actives ou les archiver"/>
+                        </group>
+
+                        <group>
+                            <field name="task_ids" options="{'no_create': True, 'no_create_edit':True,'no_open':True}"
+                                   string="Etapes/Kits Concernées" on_change="1" modifiers="{}"/>
+                            <field name="exist" string="Vérifier Doublons?" on_change="onchange_exist(exist)"
+                                   modifiers="{}"/>
+                            <field name="is_kit" string="Vérifier Doublons?" invisible="1"
+                                   modifiers="{'invisible': true, 'readonly': true}"/>
+                        </group>
+                    </group>
+                    <notebook string="Paramètres">
+                        <page string="Taches Concernées"
+                              attrs="{'invisible':[('is_kit','=',True)]}"
+                              modifiers="{'invisible': [['is_kit', '=', true]]}">
+                            <group string="Afficher Taches Concernées">
+                                <field name="work_ids"
+                                       options="{'no_create': True, 'no_create_edit':True,'no_open':True}"
+                                       nolabel="1"
+                                       modifiers="{}"/>
+                            </group>
+                            <group string="Afficher Taches Concernées"  invisible="1" modifiers="{'invisible': true}">
+                                <newline/>
+                                <newline/>
+
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_base_task_merge_automatic_wizard" model="ir.actions.act_window">
+        <field name="name">Merge Tasks</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">base.task.merge.automatic.wizard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Merge tasks !
+            </p>
+        </field>
+
+    </record>
+    #submenu
+
+    <menuitem id="menu_merge_tasks_root"
+              name="Merge Tasks"
+              action="action_base_task_merge_automatic_wizard"
+              sequence="0"/>
+
+
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access.base.task.merge.line,access_base_task_merge_line,eb_merge_wizard.model_base_task_merge_line,base.group_user,1,1,1,1
+access.base.task.merge.automatic.wizard,access_base_task_merge_automatic_wizard,eb_merge_wizard.model_base_task_merge_automatic_wizard,base.group_user,1,1,1,1
+access.task_line.show.line2,access_task_line_show_line2,eb_merge_wizard.model_task_line_show_line2,base.group_user,1,1,1,1
+access.base.group.merge.line2,access_base_group_merge_line2,eb_merge_wizard.model_base_group_merge_line2,base.group_user,1,1,1,1
+access.project.task.work,access_project_task_work,eb_merge_wizard.model_project_task_work,base.group_user,1,1,1,1
